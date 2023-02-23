@@ -12,26 +12,26 @@ export class UserService {
     private addressService: AddressService,
   ) {}
 
-  findAll(): Promise<User[]> {
+  public async findAll(): Promise<User[]> {
     return this.usersRepository.find();
   }
 
-  findOne(id: number): Promise<User> {
+  public async findOne(id: number): Promise<User> {
     return this.usersRepository.findOneBy({ id });
   }
 
-  async remove(id: string): Promise<void> {
+  public async remove(id: string): Promise<void> {
     await this.usersRepository.delete(id);
   }
 
-  async create(user: User): Promise<User> {
+  public async create(user: User): Promise<User> {
     const address = await this.addressService.create(user.address);
     user.address = address;
     const objectUser = this.usersRepository.create(user);
     return await this.usersRepository.save(objectUser);
   }
 
-  async findWithAddress(): Promise<User[]> {
+  public async findWithAddress(): Promise<User[]> {
     const users = await this.usersRepository.find({
       relations: ['address'],
     });
