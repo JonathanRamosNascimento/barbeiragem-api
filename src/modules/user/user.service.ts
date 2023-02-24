@@ -4,6 +4,8 @@ import { AddressService } from 'src/modules/address/address.service';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 
+import { hash } from 'bcryptjs';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -25,10 +27,16 @@ export class UserService {
   }
 
   public async create(user: User): Promise<User> {
+    user.password = await hash(user.password, 8);
+
     const address = await this.addressService.create(user.address);
     user.address = address;
+
     const objectUser = this.usersRepository.create(user);
-    return await this.usersRepository.save(objectUser);
+    const newUser = await this.usersRepository.save(objectUser);
+
+    newUser.password = undefined;
+    return newUser;
   }
 
   public async findWithAddress(): Promise<User[]> {
