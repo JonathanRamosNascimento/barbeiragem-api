@@ -10,6 +10,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export enum UserRole {
+  CLIENT = 'client',
+  PROFESSIONAL = 'professional',
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn({ type: 'int4' })
@@ -29,8 +34,12 @@ export class User {
   @Column({ type: 'varchar' })
   phone: string;
 
-  @Column({ type: 'varchar' })
-  profile: string;
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.CLIENT,
+  })
+  role: UserRole;
 
   @Column({ type: 'bool', default: true, nullable: true, name: 'is_active' })
   isActive: boolean;
