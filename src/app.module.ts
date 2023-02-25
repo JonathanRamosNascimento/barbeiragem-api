@@ -6,10 +6,16 @@ import { AppService } from './app.service';
 import databaseConfig from './database/database';
 import { AddressController } from './modules/address/address.controller';
 import { AddressModule } from './modules/address/address.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(databaseConfig), UserModule, AddressModule],
+  imports: [
+    TypeOrmModule.forRoot(databaseConfig),
+    UserModule,
+    AddressModule,
+    AuthModule,
+  ],
   controllers: [AppController, AddressController],
   providers: [AppService],
 })
