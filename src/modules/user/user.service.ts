@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AddressService } from 'src/modules/address/address.service';
 import { Repository } from 'typeorm';
@@ -22,7 +22,7 @@ export class UserService {
     const user = this.usersRepository.findOneBy({ id });
 
     if (!user) {
-      throw new InternalServerErrorException('User not found!');
+      throw new HttpException('User not found!', HttpStatus.NOT_FOUND);
     }
 
     return user;
@@ -32,7 +32,7 @@ export class UserService {
     const user = await this.findOne(id);
 
     if (!user) {
-      throw new InternalServerErrorException('User not found!');
+      throw new HttpException('User not found!', HttpStatus.NOT_FOUND);
     }
 
     await this.usersRepository.delete(user);

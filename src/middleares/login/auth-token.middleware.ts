@@ -1,4 +1,5 @@
 import {
+  HttpException,
   HttpStatus,
   Injectable,
   InternalServerErrorException,
@@ -19,10 +20,7 @@ export class AuthTokenMiddleware implements NestMiddleware {
     const authHeader = request.headers.authorization;
 
     if (!authHeader) {
-      throw new InternalServerErrorException({
-        statusCode: HttpStatus.FORBIDDEN,
-        message: 'JWT token is missing',
-      });
+      throw new HttpException('JWT token is missing!', HttpStatus.FORBIDDEN);
     }
 
     const [, token] = authHeader.split(' ');
@@ -38,10 +36,7 @@ export class AuthTokenMiddleware implements NestMiddleware {
 
       return next();
     } catch {
-      throw new InternalServerErrorException({
-        statusCode: HttpStatus.FORBIDDEN,
-        message: 'Invalid JWT token',
-      });
+      throw new HttpException('Invalid JWT token', HttpStatus.FORBIDDEN);
     }
   }
 }

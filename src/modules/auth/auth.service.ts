@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare } from 'bcryptjs';
 import { Repository } from 'typeorm';
@@ -24,14 +24,16 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new InternalServerErrorException(
+      throw new HttpException(
         'Incorrect email/password combination!',
+        HttpStatus.BAD_REQUEST,
       );
     }
 
     if (!user.isActive) {
-      throw new InternalServerErrorException(
+      throw new HttpException(
         'User is disabled, contact support for more information!',
+        HttpStatus.NOT_FOUND,
       );
     }
 
@@ -40,8 +42,9 @@ export class AuthService {
     user.password = undefined;
 
     if (!passwordMatched) {
-      throw new InternalServerErrorException(
+      throw new HttpException(
         'Incorrect email/password combination!',
+        HttpStatus.BAD_REQUEST,
       );
     }
 
