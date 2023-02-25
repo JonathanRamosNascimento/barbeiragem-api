@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare } from 'bcryptjs';
 import { Repository } from 'typeorm';
@@ -24,7 +24,15 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new Error('User not found!');
+      throw new InternalServerErrorException(
+        'Incorrect email/password combination!',
+      );
+    }
+
+    if (!user.isActive) {
+      throw new InternalServerErrorException(
+        'User is disabled, contact support for more information!',
+      );
     }
 
     const passwordMatched = await compare(props.password, user.password);
@@ -32,7 +40,9 @@ export class AuthService {
     user.password = undefined;
 
     if (!passwordMatched) {
-      throw new Error('Incorrect email/password combination!');
+      throw new InternalServerErrorException(
+        'Incorrect email/password combination!',
+      );
     }
 
     const { secret, expiresIn } = authenticationSettings.jwt;
