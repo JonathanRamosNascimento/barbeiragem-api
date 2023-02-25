@@ -1,7 +1,7 @@
 {
   "name": "barbeiragem-api",
   "version": "0.0.1",
-  "description": "",
+  "description": "Barbershop schedule management API",
   "author": "",
   "private": true,
   "license": "UNLICENSED",

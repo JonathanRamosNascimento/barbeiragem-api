@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AddressService } from 'src/modules/address/address.service';
 import { Repository } from 'typeorm';
@@ -19,11 +19,23 @@ export class UserService {
   }
 
   public async findOne(id: number): Promise<User> {
-    return this.usersRepository.findOneBy({ id });
+    const user = this.usersRepository.findOneBy({ id });
+
+    if (!user) {
+      throw new InternalServerErrorException('User not found!');
+    }
+
+    return user;
   }
 
-  public async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
+  public async remove(id: number): Promise<void> {
+    const user = await this.findOne(id);
+
+    if (!user) {
+      throw new InternalServerErrorException('User not found!');
+    }
+
+    await this.usersRepository.delete(user);
   }
 
   public async create(user: User): Promise<User> {
@@ -39,7 +51,7 @@ export class UserService {
     return newUser;
   }
 
-  public async findWithAddress(): Promise<User[]> {
+  public async findUsersWithAddress(): Promise<User[]> {
     const users = await this.usersRepository.find({
       relations: ['address'],
     });

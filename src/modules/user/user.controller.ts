@@ -13,7 +13,7 @@ export class UserController {
 
   @Get()
   public async findAll(): Promise<User[]> {
-    return this.userService.findWithAddress();
+    return this.userService.findUsersWithAddress();
   }
 
   @Get(':id')
