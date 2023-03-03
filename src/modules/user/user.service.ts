@@ -39,6 +39,14 @@ export class UserService {
   }
 
   public async create(user: User): Promise<User> {
+    const userExist = await this.usersRepository.findOne({
+      where: { email: user.email },
+    });
+
+    if (userExist) {
+      throw new HttpException('User exists!', HttpStatus.BAD_REQUEST);
+    }
+
     user.password = await hash(user.password, 8);
 
     const address = await this.addressService.create(user.address);
