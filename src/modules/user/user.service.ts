@@ -35,7 +35,7 @@ export class UserService {
       throw new HttpException('User not found!', HttpStatus.NOT_FOUND);
     }
 
-    await this.usersRepository.delete(user);
+    await this.usersRepository.remove(user);
   }
 
   public async create(user: User): Promise<User> {

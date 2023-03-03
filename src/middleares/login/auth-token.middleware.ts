@@ -2,7 +2,6 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-  InternalServerErrorException,
   NestMiddleware,
 } from '@nestjs/common';
 import { verify } from 'jsonwebtoken';
@@ -20,7 +19,7 @@ export class AuthTokenMiddleware implements NestMiddleware {
     const authHeader = request.headers.authorization;
 
     if (!authHeader) {
-      throw new HttpException('JWT token is missing!', HttpStatus.FORBIDDEN);
+      throw new HttpException('JWT token is missing!', HttpStatus.UNAUTHORIZED);
     }
 
     const [, token] = authHeader.split(' ');
@@ -36,7 +35,7 @@ export class AuthTokenMiddleware implements NestMiddleware {
 
       return next();
     } catch {
-      throw new HttpException('Invalid JWT token', HttpStatus.FORBIDDEN);
+      throw new HttpException('Invalid JWT token', HttpStatus.UNAUTHORIZED);
     }
   }
 }

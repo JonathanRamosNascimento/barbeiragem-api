@@ -26,7 +26,7 @@ export class AuthService {
     if (!user) {
       throw new HttpException(
         'Incorrect email/password combination!',
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.UNAUTHORIZED,
       );
     }
 
@@ -44,7 +44,7 @@ export class AuthService {
     if (!passwordMatched) {
       throw new HttpException(
         'Incorrect email/password combination!',
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.UNAUTHORIZED,
       );
     }
 
