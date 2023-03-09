@@ -1,25 +1,20 @@
-import { IsEmail, MaxLength } from 'class-validator';
-import { Address } from 'src/modules/address/address.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
-  ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { BarberShop } from '../barber-shop/barber-shop.entity';
-
-export enum UserRole {
-  CLIENT = 'client',
-  PROFESSIONAL = 'professional',
-}
+import { IsEmail, MaxLength } from 'class-validator';
+import { User } from '../user/user.entity';
 
 @Entity()
-export class User {
+export class BarberShop {
   @PrimaryGeneratedColumn({ type: 'int4' })
   id: number;
 
@@ -31,32 +26,19 @@ export class User {
   @IsEmail(null, { message: 'invalid email' })
   email: string;
 
-  @Column({ type: 'varchar', select: false })
-  password: string;
-
   @Column({ type: 'varchar' })
   phone: string;
-
-  @Column({
-    type: 'enum',
-    enum: UserRole,
-    default: UserRole.CLIENT,
-  })
-  role: UserRole;
 
   @Column({ type: 'bool', default: true, nullable: true, name: 'is_active' })
   isActive: boolean;
 
-  @OneToOne(() => Address, (address) => address.id, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-    nullable: false,
-  })
-  @JoinColumn({ name: 'address_id' })
-  address: Address;
+  @OneToOne(() => User, (user) => user.id)
+  @JoinColumn({ name: 'owner_id' })
+  owner: User;
 
-  @ManyToMany(() => BarberShop)
-  barberShops: BarberShop[];
+  @ManyToMany(() => User)
+  @JoinTable()
+  barbers: User[];
 
   @CreateDateColumn({
     type: 'timestamp',
