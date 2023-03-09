@@ -48,9 +48,9 @@ export class User {
   isActive: boolean;
 
   @OneToOne(() => Address, (address) => address.id, {
-    onDelete: 'CASCADE',
+    onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
-    nullable: false,
+    nullable: true,
   })
   @JoinColumn({ name: 'address_id' })
   address: Address;
