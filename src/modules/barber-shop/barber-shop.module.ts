@@ -4,9 +4,10 @@ import { BarberShopController } from './barber-shop.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BarberShop } from './barber-shop.entity';
 import { UserModule } from '../user/user.module';
+import { AddressModule } from '../address/address.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([BarberShop]), UserModule],
+  imports: [TypeOrmModule.forFeature([BarberShop]), UserModule, AddressModule],
   controllers: [BarberShopController],
   providers: [BarberShopService],
   exports: [TypeOrmModule],

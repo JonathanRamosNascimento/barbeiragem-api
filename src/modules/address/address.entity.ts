@@ -26,6 +26,9 @@ export class Address {
   @Column({ type: 'varchar' })
   district: string;
 
+  // @Column({ type: 'point' })
+  // location: string;
+
   @Column({ type: 'varchar', nullable: true })
   complement: string;
 

@@ -1,3 +1,4 @@
+import { IsEmail, MaxLength } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -5,12 +6,12 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IsEmail, MaxLength } from 'class-validator';
+import { Address } from '../address/address.entity';
+
 import { User } from '../user/user.entity';
 
 @Entity()
@@ -31,6 +32,14 @@ export class BarberShop {
 
   @Column({ type: 'bool', default: true, nullable: true, name: 'is_active' })
   isActive: boolean;
+
+  @OneToOne(() => Address, (address) => address.id, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    nullable: false,
+  })
+  @JoinColumn({ name: 'address_id' })
+  address: Address;
 
   @OneToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'owner_id' })
