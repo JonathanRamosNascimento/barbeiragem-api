@@ -45,7 +45,7 @@ export class BarberShop {
   @JoinColumn({ name: 'owner_id' })
   owner: User;
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, (user) => user.barberShops)
   @JoinTable()
   barbers: User[];
 

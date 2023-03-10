@@ -27,7 +27,7 @@ export class BarberShopService {
 
   findAll() {
     return this.barberShopRepository.find({
-      relations: { address: true },
+      relations: { address: true, barbers: true },
     });
   }
 

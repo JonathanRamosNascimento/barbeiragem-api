@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToOne,
@@ -55,7 +56,7 @@ export class User {
   @JoinColumn({ name: 'address_id' })
   address: Address;
 
-  @ManyToMany(() => BarberShop)
+  @ManyToMany(() => BarberShop, (barberShop) => barberShop.barbers)
   barberShops: BarberShop[];
 
   @CreateDateColumn({
