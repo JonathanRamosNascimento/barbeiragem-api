@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Point,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -28,7 +27,7 @@ export class Address {
   district: string;
 
   @Column({ type: 'point' })
-  location: Point;
+  location: { x: number; y: number };
 
   @Column({ type: 'varchar', nullable: true })
   complement: string;
