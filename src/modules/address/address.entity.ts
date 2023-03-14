@@ -26,7 +26,7 @@ export class Address {
   @Column({ type: 'varchar' })
   district: string;
 
-  @Column({ type: 'point' })
+  @Column({ type: 'point', nullable: true })
   location: { x: number; y: number };
 
   @Column({ type: 'varchar', nullable: true })
