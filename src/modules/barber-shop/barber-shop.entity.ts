@@ -46,7 +46,11 @@ export class BarberShop {
   owner: User;
 
   @ManyToMany(() => User, (user) => user.barberShops)
-  @JoinTable()
+  @JoinTable({
+    name: 'barbers',
+    joinColumn: { name: 'barber_shop_id' },
+    inverseJoinColumn: { name: 'user_id' },
+  })
   barbers: User[];
 
   @CreateDateColumn({
